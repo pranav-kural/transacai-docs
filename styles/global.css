@@ -26,11 +26,11 @@
 
   --primary: #23724d;
   --primary-hover: #1e5f3f;
-  --primary-foreground: #fefdfc;
+  --primary-foreground: #efe5e1;
 
-  --secondary: #f5eeec;
-  --secondary-hover: #e2d9d4;
-  --secondary-foreground: #23724d;
+  --secondary: #c3305e;
+  --secondary-hover: #a61e46;
+  --secondary-foreground: #efe5e1;
 
   --accent: #23724d;
   --accent-foreground: #fefdfc;
@@ -67,18 +67,18 @@
   --popover: #fefdfc;
   --popover-foreground: #1a0800;
 
-  --primary: #957568;
-  --primary-hover: #7f5b4b;
+  --primary: #23724d;
+  --primary-hover: #1e5f3f;
   --primary-foreground: #fefdfc;
 
-  --secondary: #f5eeec;
-  --secondary-hover: #e2d9d4;
-  --secondary-foreground: #957568;
+  --secondary: #ad2d58;
+  --secondary-hover: #a61e46;
+  --secondary-foreground: #efe5e1;
 
   --muted: #e2e5e4;
   --muted-foreground: #6b7280;
 
-  --accent: #957568;
+  --accent: #23724d;
   --accent-foreground: #fefdfc;
 
   --destructive: #d9534f;
@@ -106,7 +106,7 @@ main
   font-weight: 600;
   padding-right: 0.1em;
   padding-left: 0.1em;
-  color: #0797b9;
+  color: #c02d5c;
 }
 
 main blockquote a {
@@ -117,7 +117,7 @@ main
   a:not(.no-style-link):not(.subheading-anchor):not(.nx-flex):not(
     .nextra-breadcrumb a
   ):hover {
-  background-color: #0797b9;
+  background-color: #c02d5c;
   color: #fff;
   transition: all 0.2s ease-in-out;
 }
@@ -187,13 +187,7 @@ footer {
   }
 
   .rt-Box {
-    position: absolute;
-    left: 0px;
-    right: 0px;
-    top: 0px;
-    height: 480px;
-    z-index: -5;
-    background: linear-gradient(to bottom, #342d2a, transparent);
+    display: none;
   }
 
   footer {
