@@ -1,0 +1,46 @@
+{
+  "name": "transac-ai-docs",
+  "version": "0.0.1",
+  "description": "Transac AI documentation",
+  "scripts": {
+    "dev": "next dev",
+    "lint": "next lint",
+    "format": "prettier . --write",
+    "build": "next build",
+    "start": "next start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/transac-ai/transacai-docs.git"
+  },
+  "author": "Pranav Kural <pranavcybsec@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/transac-ai/transacai-docs/issues"
+  },
+  "homepage": "https://github.com/transac-ai/transacai-docs#readme",
+  "dependencies": {
+    "@radix-ui/react-slot": "^1.1.0",
+    "@vercel/analytics": "^1.3.1",
+    "@vercel/speed-insights": "^1.0.12",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.399.0",
+    "next": "^14.2.5",
+    "nextra": "latest",
+    "nextra-theme-docs": "latest",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tailwind-merge": "^2.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "18.11.10",
+    "autoprefixer": "^10.4.19",
+    "eslint": "^7.23.0 || ^8.0.0",
+    "eslint-config-next": "14.2.4",
+    "postcss": "^8.4.39",
+    "prettier": "^3.3.2",
+    "tailwindcss": "^3.4.4",
+    "typescript": "^4.9.3"
+  }
+}

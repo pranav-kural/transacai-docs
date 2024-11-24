@@ -1,0 +1,6 @@
+{
+  "wms": "Workload Manager Service (WMS)",
+  "pbs": "Prompt Builder Service (PBS)",
+  "igs": "Insights Generation Service (IGS)",
+  "iss": "Insights Storage Service (ISS)"
+}
