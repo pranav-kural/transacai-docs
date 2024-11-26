@@ -26,11 +26,11 @@
 
   --primary: #23724d;
   --primary-hover: #1e5f3f;
-  --primary-foreground: #efe5e1;
+  --primary-foreground: #fefdfc;
 
   --secondary: #c3305e;
   --secondary-hover: #a61e46;
-  --secondary-foreground: #efe5e1;
+  --secondary-foreground: #fefdfc;
 
   --accent: #23724d;
   --accent-foreground: #fefdfc;
@@ -73,7 +73,7 @@
 
   --secondary: #ad2d58;
   --secondary-hover: #a61e46;
-  --secondary-foreground: #efe5e1;
+  --secondary-foreground: #fefdfc;
 
   --muted: #e2e5e4;
   --muted-foreground: #6b7280;
@@ -92,8 +92,8 @@
   --radius: 0.5rem;
 }
 
-#sponsor-btn:hover svg {
-  fill: #ffffff !important;
+.transac-ai-logo {
+  color: var(--primary) !important;
 }
 
 main
@@ -173,15 +173,19 @@ main
 
 footer {
   color: #4c4b4b !important;
-  background-color: var(--secondary) !important;
-  background: linear-gradient(
-    to top,
-    hsl(var(--nextra-primary-hue), var(--nextra-primary-saturation), 77%, 0.6),
-    transparent
-  ) !important;
+  border-top: 0.25px solid var(--primary) !important;
+  background-color: rgba(0, 0, 0, 0.05) !important;
 }
 
 :is(html[class~="dark"]) {
+  .transac-ai-logo {
+    color: hsl(
+      var(--nextra-primary-hue),
+      var(--nextra-primary-saturation),
+      50%
+    ) !important;
+  }
+
   .nextra-code-block pre {
     background-color: hsl(212, 100%, 77%, 0.1);
   }
@@ -192,6 +196,6 @@ footer {
 
   footer {
     color: #c1b9bd !important;
-    background: linear-gradient(to top, #342d2a, transparent) !important;
+    background-color: rgba(255, 255, 255, 0.05) !important;
   }
 }

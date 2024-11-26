@@ -1,0 +1,55 @@
+import Img from "../../components/img";
+
+# Transac AI Demo
+
+Transac AI project is geared towards generation of **enriched summaries and insights** from complex transactional data in real-time or batch using **Generative AI** and **Large Language Models (LLMs)**.
+
+To demonstrate the capabilities of the Transac AI project, we have created a demo system that simulates real-time transactions and generates insights from these transactions. The demo system consists of the following components:
+
+## Demo Transactions Injector
+
+To demonstrate the Transac AI project, there was requirement of a client system where transactions are happening in real-time. The Transac AI project does not concern itself with how transactions are captured. This abstraction is supported through the [Prompt Builder Service (PBS)](https://github.com/pranav-kural/transacai-prompt-builder-service). A client can easily add their own source of transaction records by extending the [PrimaryRecordsDB](https://github.com/pranav-kural/transacai-prompt-builder-service/blob/main/src/records/primary_records_db.py) class.
+
+However, to simulate this real-time transaction data, there was a need for a service that would inject transactions into the [Supabase](https://supabase.com/)-hosted test `records` database, imitating the real-time transactions being made by customers or employees. This is where the Transac AI Demo Transactions Injector project comes into play. Below is a high-level overview of the architecture.
+
+<Img
+  src="/images/transac-ai-demo-arch.svg"
+  showSubtitle="true"
+  subtitle="Transac AI - Demo Transactions Injector Architecture"
+  priority={true}
+  className="mt-8"
+/>
+
+The below screenshot from AWS CloudWatch displays logs from one of the recent runs of the Lambda job that injects transactions into the `records` database.
+
+<Img
+  src="/images/transac-ai-demo-transactions-injector-logs.png"
+  showSubtitle="true"
+  subtitle="Transac AI - Demo Transactions Injector Lambda Logs"
+  priority={true}
+  className="mt-8"
+/>
+
+For more info, check the [Demo Transactions Injector GitHup repository](https://github.com/transac-ai/demo-transactions-injector).
+
+## Demo Insights Generation
+
+The [Transac AI Demo Transactions Injector project](https://github.com/transac-ai/demo-transactions-injector) adds transactions to the `records` database hosted on [Supabase](https://supabase.com/), imitating the real-time transactions being made by customers or employees. The **Demo Insights Generation** project deploys an [AWS Lambda](https://aws.amazon.com/pm/lambda) function that reads these transactions from the `records` database, and generates insights and summaries by submitting the request for insight generation to the core [Workload Manager Service](https://github.com/transac-ai/workload-manager-service)(WMS) of Transac AI project. The WMS service then initiates the process of generating insights, which are then stored in the `insights` database and a message is published on the `new_insights` Kafka topic to inform active clients.
+
+The below screenshot from AWS CloudWatch displays logs from one of the recent runs of the Lambda job that generates insights from the transactions.
+
+<Img
+  src="/images/transac-ai-demo-insights-generation-logs.png"
+  showSubtitle="true"
+  subtitle="Transac AI - Demo Insights Generation Lambda Logs"
+  priority={true}
+  className="mt-8"
+/>
+
+For more info, check the [Demo Insights Generation GitHup repository](https://github.com/transac-ai/demo-insights-generation).
+
+## Live Demo
+
+To demonstrate real-world use of Transac AI, the **live demo** system currently is configured such that around 4 new transactions are injected every minute, and a new insights generation request is submitted to **Workload Manager Service (WMS)** every 15 minutes.
+
+You can view the transactions being injected and the insights being generated on the [Live Demo](/demo/live-demo) page.

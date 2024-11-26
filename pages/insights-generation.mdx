@@ -1,0 +1,97 @@
+import Img from "../components/img";
+
+# Insights Generation Request Processing Pipeline
+
+The below given image shows the flow of generating insights from transactional data and provides a high-level overview of the underlying distributed event-driven architecture of Transac AI.
+
+<Img
+  src="/images/transac-ai-request-process-arch.svg"
+  showSubtitle="true"
+  subtitle="Transac AI - Insights Generation & Overall Architecture"
+  priority={true}
+  className="mt-8"
+/>
+
+## Components
+
+Let's take a look at some of the core services and the role they play in the system.
+
+#### Workload Manager Service (WMS)
+
+The Workload Manager Service (WMS) serves at the forefront of the insights generation pipeline. Every new request for generating insights from transactional data is first received by the WMS, which then records the request for tracking and monitoring purposes, and passes it on to the **Insights Generation Service (IGS)** for further processing.
+
+As is evident, this service needs to be highly available and scalable to handle a large number of incoming requests and ensure that they are processed in a timely manner. Therefore, the WMS provides a **Go** language-based **Connect RPC** server that is deployed on a Kubernetes cluster in the **Google Kubernetes Engine (GKE)** to ensure high availability and scalability.
+
+WMS supports multiple `HTTP` protocol versions like `HTTP 1.1`, `HTTP/2`, and `HTTP/3` for receiving requests from clients. This allows WMS to interact with other Transac AI micro-services using [gRP](https://grpc.io/) for low-latency and high-throughput communication, while allowing web or mobile-based front-ends to submit requests using `HTTP` or [Connect Protocol](https://connectrpc.com/docs/protocol).
+
+To learn more about WMS, check the [WMS GitHub Repository](https://github.com/transac-ai/workload-manager-service).
+
+#### Requests Storage Service (RSS)
+
+The Requests Storage Service (ISS) is a GraphQL API service that stores and retrieves insights generation **requests**.
+
+All new insights generation requests are started from the **Workload Manager Service (WMS)**. On getting a new manual request for insights generation or on starting a new scheduled job, the WMS service first stores the request details through the **RSS** service to get the `request_id`. For manual requests, it also returns this ID to the frontend client. Throughout the rest of the insights generation process cycle, this `request_id` is used for **tracking insights generation request** status, for tracing requests, for observability, and for performance monitoring and analysis.
+
+Frontend clients can also directly interact with the RSS service to get request details like status of a certain request or all requests for a certain client.
+
+RSS service is secured through **API keys**. Each frontend client can be assigned a unique API key to allow access and enable usage tracking and monitoring.
+
+RSS is written in **TypeScript** using the [Prisma Client ORM](https://www.prisma.io/orm) and the [GraphQL Apollo Server](https://github.com/apollographql/apollo-server), and is deployed in the **same** Kubernetes cluster as the WMS service in **GKE** to ensure low-latency communication between the two services with an internal load balancer.
+
+To learn more about RSS, check the [RSS GitHub Repository](https://github.com/transac-ai/requests-storage-service).
+
+#### Task Scheduler Service (TSS)
+
+To allow for the ability to setup batch jobs that run at specific intervals, the Task Scheduler Service (TSS) was created. The TSS service is responsible for scheduling and running batch jobs for insights generation. For example, a client may setup a job to generate insights every 10 minutes. Setting up such intervals help ensure that the number of records to be analyzed by the Large Language Model (LLM) is optimal while ensure near real-time insights generation.
+
+TSS is essentially a **Node.js** and **Fastify**-based REST API service written in TypeScript that is deployed on the same Kubernetes cluster as the WMS service in GKE. It interacts with a Supabase-hosted **PostgreSQL** database to store job schedules and job statuses.
+
+#### Insights Generation Service (IGS)
+
+The Insights Generation Service (IGS) is the core service responsible for generating insights from transactional data using Generative AI and Large Language Models (LLMs).
+
+Core functionalities of the IGS are:
+
+1. Receives a request through `gRPC` from the **Workload Manager Service (WMS)** to generate insights from transactional data.
+2. Uses `gRPC` to communicate with the **Prompt Builder Service (PBS)** to get the prompt to be used to generate insights. This prompt also contains the transactional data to be analyzed.
+3. Generates insights by passing the prompt to the **Large Language Model (LLM)**.
+4. Save the generated insights in the database using the **Insights Storage Service (ISS)**.
+5. Send update on **Kafka topic** to inform active clients about the generated insights.
+
+In the [Insights Generation](#insights-generation) section below we will discuss the insights generation process in more detail.
+
+IGS is essentially a [Connect RPC](https://connectrpc.com/) server written in **TypeScript**. It is deployed in the same Kubernetes cluster as the **WMS**, **PBS**, and **ISS** services in the GKE to ensure low-latency communication between the services. Since, IGS only interacts with internal services, it is not accessible from outside the Kubernetes cluster.
+
+To learn more about IGS, check the [IGS GitHub Repository](https://github.com/transac-ai/insights-generation-service).
+
+#### Prompt Builder Service (PBS)
+
+The Prompt Builder Service (PBS) is one of the core services of TransacAI. This service is responsible for preparing the prompt that will then be used by the **Insights Generation Service (IGS)** to generate insights from transactional data.
+
+The PBS is a gRPC service that takes in a request with the following information:
+
+- **`req_id`**: A unique identifier for a request for idempotency, traceability, and debugging.
+- **`client_id`**: A unique identifier for a client.
+- **`prompt_id`**: ID of the prompt template to be used for generating insights. This allows the client to use different templates for different types of insights and data.
+- **`records_source_id`**: ID of the source of the transactional data records. This allows the client to use different sources of transactional data for generating insights, and also helps improve resiliency by allowing the client to use different sources in case one source is down.
+- **`prompt_templates_source_id`**: ID of the source of the prompt templates. This allows the client to use different sources of prompt templates for generating insights, and also helps improve resiliency by allowing the client to use different sources in case one source is down.
+- **`from_time`**: Start time of the transactional data to be used for generating insights.
+- **`to_time`**: End time of the transactional data to be used for generating insights.
+
+The PBS then prepares the prompt by fetching the prompt template from the database, filling in the placeholders in the template with the transactional data, and returning the prompt to the client.
+
+The PBS is written in **Python** using the [gRPC Python library](https://grpc.io/docs/languages/python/). It is deployed in the same Kubernetes cluster as the IGS service to ensure low-latency communication between the services.
+
+To learn more about PBS, check the [PBS GitHub Repository](https://github.com/transac-ai/prompt-builder-service).
+
+#### Insights Storage Service (ISS)
+
+The Insights Storage Service (ISS) is a [GraphQL](https://graphql.org/) API service that stores and retrieves generated insights.
+
+The **Insights Generation Service (IGS)** generates insights from transactional data and sends them to ISS for storage. ISS stores these insights in a **PostgreSQL** database and provides an API for querying and retrieving them. Frontend clients can use the **ISS GraphQL API** to fetch insights.
+
+ISS API is publicly accessible but is secured through the use of API keys that is required for all requests.
+
+Like the **RSS** service, the **ISS** service is written in **TypeScript** using the [Prisma Client ORM](https://www.prisma.io/orm) and the [GraphQL Apollo Server](https://github.com/apollographql/apollo-server), and is deployed in the same Kubernetes cluster as the IGS service to ensure low-latency communication between the two services.
+
+To learn more about ISS, check the [ISS GitHub Repository](https://github.com/transac-ai/insights-storage-service).

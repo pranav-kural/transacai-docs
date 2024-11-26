@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-// QvikChat RAG demo image
+// Reusable mage component with optional subtitle
 export const Img = ({
   src,
   blurUrl,

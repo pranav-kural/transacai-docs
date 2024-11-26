@@ -1,7 +1,10 @@
 {
   "index": "Introduction",
-  "microservices": "Microservices",
-  "request-processing": "Request Processing Pipeline",
+  "overview": "Overview",
+  "insights-generation": {
+    "title": "Insights Generation",
+    "layout": "full"
+  },
   "real-time-updates": "Real-time Updates",
-  "graphql-servers": "GraphQL Servers"
+  "demo": "Demo"
 }

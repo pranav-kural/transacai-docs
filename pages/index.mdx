@@ -1,56 +1,33 @@
 import { ChevronRight } from "lucide-react";
-import { SponsorBtn } from "../components/sponsor-btn";
 import { Button } from "../components/ui/button";
 import { Notice } from "../components/notice";
 import Img from "../components/img";
-import Badges from "../components/badges";
 import Link from "next/link";
 
 <div className="text-3xl font-bold mt-5">Transac AI</div>
-<div className="block text-muted font-light">
-  Framework to build secure, performant, and reliable chat apps and services
-  quickly and efficiently.
-</div>
-<div className="mt-5 text-primary-hover">
-  Built on top of Firebase Genkit + LangChain. Power of both, simplicity of one.
+<div className="block text-primary font-light">
+  Real-time AI-powered insights from transactional data using Generative AI and
+  Large Language Models (LLMs).
 </div>
 
-Develop a self-hosted production-ready AI-powered chat app or service at a rapid pace with this powerful [Firebase Genkit](https://github.com/firebase/genkit) and [LangChain](https://js.langchain.com/v0.2/docs/introduction/) based framework.
+Transac AI project is geared towards generation of **enriched summaries and insights** from complex transactional data in real-time or batch using **Generative AI** and **Large Language Models (LLMs)**.
 
-**QvikChat** is a framework that provides you with a solid foundation to build powerful AI-powered chat service endpoints quickly and efficiently. It includes support for **multiple types of conversations (open-ended, close-ended)**, **chat history**, **response caching**, **authentication**, and **information retrieval using Retrieval Augmented Generation (RAG).**
+Imagine fine-tuned LLMs serving as a specialists working several times more efficiently than multiple human analysts, and capable of analyzing hundreds of transactions per second to generate insights and ensure compliance, risk management, and fraud detection; all in real-time. This is the power of **Transac AI**.
 
-<Button variant="default" className="my-5">
-  <Link href="/getting-started" className="no-style-link flex flex-row gap-1">
-    <span>Get Started</span> <ChevronRight strokeWidth="1.8px" />
+Transac AI is built using a highly scalable, available, and reliable [Kubernetes](https://kubernetes.io/)-based **distributed** **microservices** & **event-driven architecture**. This is enabled through the use of **low-latency** and **high-throughput** inter-connections between services using [gRPC](https://grpc.io/), [Apache Kafka](https://kafka.apache.org/), [Connect RPC](https://connectrpc.com/), and [GraphQL](https://graphql.org/).
+
+Core services are built using **Python**, **Node.js**, and **Go**, and are deployed and managed efficiently using [Terraform](https://github.com/hashicorp/terraform) on [Google Cloud](https://cloud.google.com/) and [AWS](https://aws.amazon.com/) using services like the [Google Kubernetes Engine (GKE)](https://cloud.google.com/kubernetes-engine), [AWS EventBridge Scheduler](https://docs.aws.amazon.com/eventbridge/), [AWS Lambda](https://aws.amazon.com/lambda), [Confluent Kafka](https://www.confluent.io/cloud-kafka), [Supabase](https://supabase.com/), and more.
+
+<div className="flex flex-row gap-10">
+<Button variant="default" className="mt-5">
+  <Link href="/overview" className="no-style-link flex flex-row gap-1">
+    <span>View Overview</span> <ChevronRight strokeWidth="1.8px" />
   </Link>
 </Button>
 
-<Img
-  src="/images/qvikchat-rag-demo.png"
-  showSubtitle="true"
-  subtitle="QvikChat RAG endpoint demo"
-  priority={true}
-/>
-
-<Notice>
-  Note: This is not an official Firebase Genkit or LangChain framework. This is
-  a community-driven project. Firebase Genkit is currently in beta, this means
-  that the public API and framework design may change in backward-incompatible
-  ways. We will do our best to keep this project up-to-date.
-</Notice>
-
-If you find value from this project, please consider contributing or sponsoring the project to help maintain and improve it. All contributions and support are greatly appreciated!
-
-<SponsorBtn variant="outline" className="my-5"></SponsorBtn>
-
-## Features
-
-### Features
-
-- **Firebase Genkit**: Built using the open-source [Firebase Genkit framework](https://firebase.google.com/docs/genkit) to help you build powerful production-ready AI-powered services with the possibility of easily extending the framework's functionalities through Genkit plugins.
-- **LangChain**: Built using the open-source [LangChain framework](https://js.langchain.com/v0.2/docs/introduction/) to help you process data for RAG and information retrieval. Easily extend the framework by using any LangChain-supported embedding model, vector store, data loader, and more.
-- **Deploy to any NodeJS platform**: Deploy your app or service to any NodeJS platform, including Firebase, Google Cloud, AWS, Heroku, etc., with ease.
-- **Firebase Firestore**: In-built support for using [Cloud Firestore](https://firebase.google.com/docs/firestore) as the chat history store, cache store, and API key store.
-- **Endpoints with Chat History, Authentication, Caching, and RAG**: Built-in architecture to help you build chat endpoints with support for **conversation history**, **authenticated endpoints**, **response caching** for faster response times, and **RAG** for answering queries that require additional context data.
-- **RAG**: Built-in support for loading text, CSV, JSON, PDF, or code files easily, and generating and storing embeddings in a vector store to support information retrieval for context-aware chat endpoints. Add additional data loaders easily through LangChain, for example, to support ingesting data from cloud storage. For all available integrations for data loaders, check [Document loaders | 🦜️🔗 Langchain.](https://js.langchain.com/v0.1/docs/integrations/document_loaders/)
-- **Focus on Performance, Reliability, and Security**: Every component in QvikChat is built to ensure low latency and scalable performance without compromising on security. From using prompts that help mitigate LLM hallucination and deter prompt injection attacks, to providing in-built support for enabling authentication for each endpoint, QvikChat is designed to help you build secure, performant, and reliable chat apps and services.
+<Button variant="secondary" className="mt-5 bg-secondary">
+  <Link href="/demo/overview" className="no-style-link flex flex-row gap-1">
+    <span>Check Demo</span> <ChevronRight strokeWidth="1.8px" />
+  </Link>
+</Button>
+</div>

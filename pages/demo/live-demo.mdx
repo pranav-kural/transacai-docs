@@ -1,0 +1,55 @@
+import Img from "../../components/img";
+
+# Live Demo
+
+To demonstrate real-world use of Transac AI, the **live demo** system currently is configured such that around 4 new transactions are injected every minute, and a new insights generation request is submitted to **Workload Manager Service (WMS)** every 15 minutes.
+
+The ability to showcase these transactions being injected and the insights being generated in real-time is under development. In the meanwhile, below you can see some screenshots displaying the working of the demo behind the scenes.
+
+## Simulating Transactions
+
+The below screenshot from [AWS CloudWatch](https://aws.amazon.com/cloudwatch/) displays logs from one of the recent runs of the Lambda job that injects transactions into the `records` database.
+
+<Img
+  src="/images/transac-ai-demo-transactions-injector-logs.png"
+  showSubtitle="true"
+  subtitle="Transac AI - Demo Transactions Injector Lambda Logs"
+  priority={true}
+  className="mt-8"
+/>
+
+The below image displays how the transactions injector lambda job publishes job status to AWS SQS queue. In case of an error, this queue can be used to trigger a notification to the concerned team or to stop demo insights generation pipeline.
+
+<Img
+  src="/images/aws-sqs.png"
+  showSubtitle="true"
+  subtitle="Transac AI - Demo Transactions Injector SQS Queue"
+  priority={true}
+  className="mt-8"
+/>
+
+## Submitting Insights Generation Requests to WMS
+
+The below screenshot from [AWS CloudWatch](https://aws.amazon.com/cloudwatch/) displays logs from one of the recent runs of the Lambda job that uses `gRPC` to submit a new insights generation request to the core **Workload Manager Service (WMS)** of Transac AI project that runs on [Google Kubernetes Engine (GKE)](https://cloud.google.com/kubernetes-engine).
+
+<Img
+  src="/images/transac-ai-demo-insights-generation-logs.png"
+  showSubtitle="true"
+  subtitle="Transac AI - Demo Insights Generation Request Lambda Logs"
+  priority={true}
+  className="mt-8"
+/>
+
+## Generated Insights
+
+The below screenshot is from the [Supabase](https://supabase.com/)-hosted PostgreSQL database that stores the generated insights for this demo. This screenshot displays an example of one of the generated insights.
+
+<Img
+  src="/images/transac-ai-supabase-insight.png"
+  showSubtitle="true"
+  subtitle="Transac AI - Demo Insights Database"
+  priority={true}
+  className="mt-8"
+/>
+
+For more information on the pipeline behind the generation of insights, check the [Insights Generation](/insights-generation) page.

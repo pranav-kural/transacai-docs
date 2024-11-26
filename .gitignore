@@ -160,3 +160,7 @@ dist
 
 # Test files
 test.txt
+
+# Will be re-generated
+public/robots.txt
+public/sitemap*.xml

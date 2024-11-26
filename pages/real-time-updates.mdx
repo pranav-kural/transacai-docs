@@ -1,1 +1,9 @@
 # Real-Time Updates with Apache Kafka
+
+Transac AI provides real-time updates to clients about the status of insights generation requests and the generated insights.
+
+To achieve this, Transac AI uses [Apache Kafka](https://kafka.apache.org/) as a message broker to publish updates about insights generation requests and the generated insights. The **Insights Generation Service (IGS)** publishes updates about insights generation requests and the generated insights to the `new_insights` Kafka topic. All active clients subscribed to this topic receive real-time updates about the generated insights.
+
+The **Workload Manager Service (WMS)** also subscribes to the `new_insights` Kafka topic to receive updates about the generated insights, and update request status accordingly through the **Requests Storage Service (RSS)**.
+
+Clients can use the **RSS** service to manually get the status of requests. All fulfilled requests will have an associated `insights_id`, which the client can use to fetch generated insights from the **Insights Storage Service (ISS)**.
